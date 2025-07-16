@@ -1,208 +1,169 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-  <meta charset="UTF-8" />
-  <title>Wat wil jij later worden?</title>
+  <meta charset="UTF-8">
+  <title>Jouw Beroepenpodium</title>
   <style>
     body {
-      margin: 0;
-      padding: 0;
-      font-family: "Comic Sans MS", cursive, sans-serif;
-      background: linear-gradient(135deg, #ffe2e2, #e0f7fa);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
+      margin:0;
+      font-family:"Comic Sans MS", cursive;
+      background: #eef2f7;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      min-height:100vh;
     }
-
     .container {
-      width: 90%;
-      max-width: 800px;
-      background-color: #ffffffcc;
-      border-radius: 20px;
-      padding: 30px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-      text-align: center;
+      width:90%; max-width:500px;
+      background:#fff;
+      border-radius:15px;
+      box-shadow:0 4px 12px rgba(0,0,0,0.1);
+      overflow:hidden;
     }
-
-    h1 {
-      color: #ff6b81;
-      font-size: 2.5rem;
-      margin-bottom: 10px;
+    .screen {
+      display:none;
+      padding:20px;
+      text-align:center;
     }
-
-    p {
-      color: #555;
-      font-size: 1.1rem;
+    .screen.active { display:block; }
+    .collage {
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:10px;
+      margin:20px 0;
     }
-
-    .vraag {
-      background-color: #fff9f0;
-      margin: 20px auto;
-      padding: 15px;
-      border-radius: 15px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      text-align: left;
+    .collage img {
+      width:100%; height:120px;
+      object-fit:cover;
+      border-radius:10px;
+      cursor:pointer;
     }
-
-    label {
-      display: inline-block;
-      margin: 6px 10px;
-      font-size: 1rem;
+    .vraag h2 {
+      margin-bottom:15px;
+      color:#333;
     }
-
-    input[type="radio"] {
-      margin-right: 6px;
-      transform: scale(1.2);
+    .options button {
+      display:block;
+      width:100%;
+      padding:12px;
+      margin:8px 0;
+      font-size:1rem;
+      border:none;
+      border-radius:8px;
+      cursor:pointer;
+      transition:0.2s;
     }
-
-    button {
-      margin-top: 20px;
-      padding: 12px 24px;
-      font-size: 1.2rem;
-      background-color: #6bc1ff;
-      color: white;
-      border: none;
-      border-radius: 12px;
-      cursor: pointer;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-      transition: 0.3s;
+    .options button:hover { opacity:0.9; }
+    .resultaat h2 {
+      margin-bottom:15px;
+      color:#4a8;
     }
-
-    button:hover {
-      background-color: #4aa8e6;
+    .beroep {
+      background:#f9f9f9;
+      margin:10px 0;
+      padding:12px;
+      border-radius:8px;
+      font-size:1.1rem;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
     }
-
-    #resultaat {
-      margin-top: 30px;
-      padding: 20px;
-      background-color: #f3ffe4;
-      border: 2px dashed #98df8a;
-      border-radius: 15px;
-      font-size: 1.2rem;
-      text-align: center;
-    }
-
-    ol {
-      text-align: left;
-      margin: 10px auto;
-      display: inline-block;
-    }
-
-    @media (max-width: 600px) {
-      .container {
-        padding: 20px;
-      }
-
-      h1 {
-        font-size: 2rem;
-      }
-
-      button {
-        font-size: 1rem;
-      }
-
-      label {
-        display: block;
-        margin: 5px 0;
-      }
+    .beroep span { font-size:1.5rem; }
+    .btn-reset {
+      margin-top:20px;
+      background:#4a8;
+      color:white;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Wat wil jij later worden?</h1>
-    <p>Beantwoord de vragen en ontdek je top 3 beroepen!</p>
-
-    <form id="quizForm">
-      <div id="vragenContainer"></div>
-      <button type="submit">Laat mijn beroepen zien!</button>
-    </form>
-
-    <div id="resultaat"></div>
+<div class="container">
+  <!-- Startscherm -->
+  <div id="screen-start" class="screen active">
+    <h1>Welkom op jouw Beroepenpodium</h1>
+    <p>Klik op een foto die jou leuk lijkt!</p>
+    <div class="collage">
+      <img src="https://via.placeholder.com/200?text=Zorg" alt="Zorg" data-tag="zorg">
+      <img src="https://via.placeholder.com/200?text=Techniek" alt="Techniek" data-tag="techniek">
+      <img src="https://via.placeholder.com/200?text=Creatief" alt="Creatief" data-tag="creatief">
+      <img src="https://via.placeholder.com/200?text=Dieren" alt="Dieren" data-tag="dieren">
+    </div>
   </div>
+  <!-- Vragenfase -->
+  <div id="screen-vraag" class="screen vraag">
+    <h2 id="h-vraag"></h2>
+    <div class="options"></div>
+  </div>
+  <!-- Resultaat -->
+  <div id="screen-result" class="screen resultaat">
+    <h2>🎉 Jouw podiumpersoonlijkheid</h2>
+    <div id="results"></div>
+    <button id="btn-reset" class="options btn-reset">Opnieuw starten</button>
+  </div>
+</div>
 
-  <script>
-    const antwoordOpties = ['Super leuk', 'Leuk', 'Beetje', 'Niet leuk', 'Super saai'];
-    const antwoordScore = { 'Super leuk': 2, 'Leuk': 1, 'Beetje': 0, 'Niet leuk': -1, 'Super saai': -2 };
+<script>
+const vragen = [
+  { txt:"Help je graag anderen?", tags:["helpen","zorg"] },
+  { txt:"Vind je bouwen leuk?", tags:["techniek","bouwen"] },
+  { txt:"Zou je dieren willen verzorgen?", tags:["dieren","zorg"] },
+  { txt:"Teken je graag?", tags:["creatief"] },
+  { txt:"Wil je later iets presenteren?", tags:["spreken","optreden"] }
+];
+const beroepen = [
+  { nm:"Dierenarts", tags:["dieren","zorg"], ico:"🩺" },
+  { nm:"Programmeur", tags:["techniek","denken"], ico:"💻" },
+  { nm:"Leraar", tags:["spreken","helpen"], ico:"📚" },
+  { nm:"Acteur", tags:["optreden","creatief"], ico:"🎭" },
+  { nm:"Bouwvakker", tags:["techniek","bouwen"], ico:"🛠️" }
+];
+const screenStart=document.getElementById("screen-start"),
+      screenVraag=document.getElementById("screen-vraag"),
+      screenResult=document.getElementById("screen-result");
+let interesse={}, antwoorden=0, startTag;
 
-    const vragen = [
-      { tekst: "Hou je van tekenen of knutselen?", tags: ['creatief'] },
-      { tekst: "Vind je het leuk om mensen te helpen?", tags: ['helpen'] },
-      { tekst: "Werk je graag met computers?", tags: ['techniek'] },
-      { tekst: "Hou je van dieren verzorgen?", tags: ['dieren'] },
-      { tekst: "Vind je het leuk om toneel te spelen?", tags: ['optreden'] },
-      { tekst: "Los je graag puzzels of raadsels op?", tags: ['denken'] },
-      { tekst: "Wil je mensen beter maken?", tags: ['zorg'] },
-      { tekst: "Vind je het leuk om dingen te bouwen?", tags: ['bouwen'] },
-      { tekst: "Sta je graag voor een groep?", tags: ['spreken'] },
-      { tekst: "Wil je graag een eigen winkel of bedrijf?", tags: ['ondernemen'] },
-      // Voeg hier gerust meer vragen toe...
-    ];
+document.querySelectorAll(".collage img").forEach(img =>
+  img.addEventListener("click",()=>{
+    startTag=img.dataset.tag;
+    interesse[startTag]=1;
+    screenStart.classList.remove("active");
+    showVraag(0);
+  })
+);
 
-    const beroepen = [
-      { naam: "Dierenarts", tags: ['dieren', 'zorg'] },
-      { naam: "Verpleegkundige", tags: ['zorg', 'helpen'] },
-      { naam: "Game-ontwikkelaar", tags: ['techniek', 'creatief'] },
-      { naam: "Leraar", tags: ['spreken', 'helpen'] },
-      { naam: "Acteur", tags: ['optreden', 'creatief'] },
-      { naam: "Architect", tags: ['bouwen', 'creatief'] },
-      { naam: "YouTuber", tags: ['optreden', 'ondernemen'] },
-      { naam: "Boer", tags: ['natuur', 'dieren'] },
-      // Voeg hier gerust meer beroepen toe...
-    ];
+function showVraag(i) {
+  if(i>=vragen.length) return showResult();
+  screenVraag.classList.add("active");
+  document.getElementById("h-vraag").textContent = vragen[i].txt;
+  const opts=document.querySelector(".options");
+  opts.innerHTML="";
+  ["Super leuk","Leuk","Beetje","Niet leuk","Super saai"].forEach(o=>{
+    const b=document.createElement("button");
+    b.textContent=o;
+    b.onclick=()=>{ score(o, vragen[i].tags); showVraag(i+1); };
+    opts.append(b);
+  });
+}
+function score(ans, tags){
+  const val = {"Super leuk":2,"Leuk":1,"Beetje":0,"Niet leuk":-1,"Super saai":-2}[ans];
+  tags.forEach(t=>interesse[t]=(interesse[t]||0)+val);
+}
 
-    const vragenContainer = document.getElementById('vragenContainer');
+function showResult(){
+  screenVraag.classList.remove("active");
+  const scores = beroepen.map(b=>{
+    const sc = b.tags.reduce((s,t)=>s+(interesse[t]||0),0);
+    return {...b,score:sc};
+  }).sort((a,b)=>b.score-a.score).slice(0,3);
+  const wr=document.getElementById("results");
+  wr.innerHTML = scores.map(b=>`
+    <div class="beroep"><span>${b.ico}</span>${b.nm} — score ${b.score}</div>
+  `).join("");
+  screenResult.classList.add("active");
+}
 
-    vragen.forEach((vraag, index) => {
-      const vraagDiv = document.createElement('div');
-      vraagDiv.classList.add('vraag');
-      vraagDiv.innerHTML = `<strong>Vraag ${index + 1}:</strong> ${vraag.tekst}<br/>`;
+document.getElementById("btn-reset").onclick = () => location.reload();
+</script>
 
-      antwoordOpties.forEach(optie => {
-        const id = `vraag${index}_${optie}`;
-        vraagDiv.innerHTML += `
-          <label>
-            <input type="radio" name="vraag${index}" value="${optie}" required> ${optie}
-          </label>
-        `;
-      });
-
-      vragenContainer.appendChild(vraagDiv);
-    });
-
-    document.getElementById('quizForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-
-      let interesseScores = {};
-
-      vragen.forEach((vraag, i) => {
-        const antwoord = document.querySelector(`input[name="vraag${i}"]:checked`).value;
-        const score = antwoordScore[antwoord];
-        vraag.tags.forEach(tag => {
-          interesseScores[tag] = (interesseScores[tag] || 0) + score;
-        });
-      });
-
-      const beroepScores = beroepen.map(beroep => {
-        let score = 0;
-        beroep.tags.forEach(tag => {
-          score += interesseScores[tag] || 0;
-        });
-        return { naam: beroep.naam, score };
-      });
-
-      beroepScores.sort((a, b) => b.score - a.score);
-      const topBeroepen = beroepScores.slice(0, 3);
-
-      document.getElementById('resultaat').innerHTML = `
-        <h2>🎉 Jouw Top 3 Beroepen:</h2>
-        <ol>
-          ${topBeroepen.map(b => `<li><strong>${b.naam}</strong> (score: ${b.score})</li>`).join('')}
-        </ol>
-        <p>Je houdt van: ${Object.entries(interesseScores).sort((a, b) => b[1] - a[1]).map(e => e[0]).slice(0, 3).join(', ')}</p>
-      `;
-    });
-  </script>
 </body>
 </html>
