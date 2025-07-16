@@ -2,168 +2,165 @@
 <html lang="nl">
 <head>
   <meta charset="UTF-8">
-  <title>Jouw Beroepenpodium</title>
+  <title>Wat wil jij worden?</title>
   <style>
     body {
-      margin:0;
-      font-family:"Comic Sans MS", cursive;
-      background: #eef2f7;
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      min-height:100vh;
+      margin: 0;
+      padding: 0;
+      font-family: "Comic Sans MS", cursive;
+      background: linear-gradient(to right, #fbc2eb, #a6c1ee);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
     }
-    .container {
-      width:90%; max-width:500px;
-      background:#fff;
-      border-radius:15px;
-      box-shadow:0 4px 12px rgba(0,0,0,0.1);
-      overflow:hidden;
+    .quiz-container {
+      background: #fff;
+      border-radius: 20px;
+      padding: 30px;
+      max-width: 700px;
+      width: 90%;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      text-align: center;
     }
-    .screen {
-      display:none;
-      padding:20px;
-      text-align:center;
+    h1 {
+      font-size: 2.5rem;
+      color: #ff69b4;
+      margin-bottom: 20px;
     }
-    .screen.active { display:block; }
-    .collage {
-      display:grid;
-      grid-template-columns:repeat(2,1fr);
-      gap:10px;
-      margin:20px 0;
+    .vraag {
+      font-size: 1.3rem;
+      margin: 20px 0;
+      color: #444;
     }
-    .collage img {
-      width:100%; height:120px;
-      object-fit:cover;
-      border-radius:10px;
-      cursor:pointer;
+    .antwoorden button {
+      background: #ffd6ec;
+      border: none;
+      padding: 12px 20px;
+      margin: 10px;
+      border-radius: 10px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: 0.3s;
     }
-    .vraag h2 {
-      margin-bottom:15px;
-      color:#333;
+    .antwoorden button:hover {
+      background: #ffb3dd;
     }
-    .options button {
-      display:block;
-      width:100%;
-      padding:12px;
-      margin:8px 0;
-      font-size:1rem;
-      border:none;
-      border-radius:8px;
-      cursor:pointer;
-      transition:0.2s;
-    }
-    .options button:hover { opacity:0.9; }
-    .resultaat h2 {
-      margin-bottom:15px;
-      color:#4a8;
-    }
-    .beroep {
-      background:#f9f9f9;
-      margin:10px 0;
-      padding:12px;
-      border-radius:8px;
-      font-size:1.1rem;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-    }
-    .beroep span { font-size:1.5rem; }
-    .btn-reset {
-      margin-top:20px;
-      background:#4a8;
-      color:white;
+    .resultaat {
+      font-size: 1.4rem;
+      margin-top: 30px;
+      color: #333;
+      background-color: #f0f8ff;
+      padding: 20px;
+      border-radius: 15px;
     }
   </style>
 </head>
 <body>
-<div class="container">
-  <!-- Startscherm -->
-  <div id="screen-start" class="screen active">
-    <h1>Welkom op jouw Beroepenpodium</h1>
-    <p>Klik op een foto die jou leuk lijkt!</p>
-    <div class="collage">
-      <img src="https://via.placeholder.com/200?text=Zorg" alt="Zorg" data-tag="zorg">
-      <img src="https://via.placeholder.com/200?text=Techniek" alt="Techniek" data-tag="techniek">
-      <img src="https://via.placeholder.com/200?text=Creatief" alt="Creatief" data-tag="creatief">
-      <img src="https://via.placeholder.com/200?text=Dieren" alt="Dieren" data-tag="dieren">
+  <div class="quiz-container">
+    <h1>Wat wil jij later worden?</h1>
+    <div id="quiz">
+      <div class="vraag" id="vraagtekst">Laadt vraag...</div>
+      <div class="antwoorden" id="antwoorden"></div>
     </div>
+    <div class="resultaat" id="resultaat"></div>
   </div>
-  <!-- Vragenfase -->
-  <div id="screen-vraag" class="screen vraag">
-    <h2 id="h-vraag"></h2>
-    <div class="options"></div>
-  </div>
-  <!-- Resultaat -->
-  <div id="screen-result" class="screen resultaat">
-    <h2>🎉 Jouw podiumpersoonlijkheid</h2>
-    <div id="results"></div>
-    <button id="btn-reset" class="options btn-reset">Opnieuw starten</button>
-  </div>
-</div>
 
-<script>
-const vragen = [
-  { txt:"Help je graag anderen?", tags:["helpen","zorg"] },
-  { txt:"Vind je bouwen leuk?", tags:["techniek","bouwen"] },
-  { txt:"Zou je dieren willen verzorgen?", tags:["dieren","zorg"] },
-  { txt:"Teken je graag?", tags:["creatief"] },
-  { txt:"Wil je later iets presenteren?", tags:["spreken","optreden"] }
-];
-const beroepen = [
-  { nm:"Dierenarts", tags:["dieren","zorg"], ico:"🩺" },
-  { nm:"Programmeur", tags:["techniek","denken"], ico:"💻" },
-  { nm:"Leraar", tags:["spreken","helpen"], ico:"📚" },
-  { nm:"Acteur", tags:["optreden","creatief"], ico:"🎭" },
-  { nm:"Bouwvakker", tags:["techniek","bouwen"], ico:"🛠️" }
-];
-const screenStart=document.getElementById("screen-start"),
-      screenVraag=document.getElementById("screen-vraag"),
-      screenResult=document.getElementById("screen-result");
-let interesse={}, antwoorden=0, startTag;
+  <script>
+    const vragen = [
+      "Vind je het leuk om anderen te helpen?",
+      "Werk je graag met dieren?",
+      "Hou je van tekenen of knutselen?",
+      "Zou je in een ziekenhuis willen werken?",
+      "Vind je techniek en bouwen interessant?",
+      "Wil je voor de klas staan?",
+      "Lijkt het je leuk om films of toneel te maken?",
+      "Werk je graag met je handen?",
+      "Zou je in de ruimte willen werken?",
+      "Vind je computers interessant?",
+      "Speel je graag buiten?",
+      "Wil je beroemd worden?",
+      "Vind je het leuk om te zingen of dansen?",
+      "Werk je graag in een team?",
+      "Help je graag met oplossen van problemen?",
+      "Ben je graag creatief bezig?",
+      "Zorg je graag voor anderen?",
+      "Wil je graag veel leren?",
+      "Ben je nieuwsgierig naar hoe dingen werken?",
+      "Hou je van lezen en schrijven?",
+      "Ben je goed met cijfers?",
+      "Werk je graag in stilte?",
+      "Zou je graag met planten of natuur werken?",
+      "Help je graag mensen met praten of luisteren?",
+      "Wil je mensen aan het lachen maken?",
+      "Hou je van kleuren en ontwerpen?",
+      "Zou je graag kleding ontwerpen?",
+      "Werk je graag met machines?",
+      "Hou je van reizen?",
+      "Wil je dingen uitvinden?",
+      "Werk je graag met kinderen?",
+      "Zou je een restaurant willen runnen?",
+      "Vind je auto's interessant?",
+      "Wil je mensen helpen die ziek zijn?",
+      "Hou je van sport?",
+      "Wil je werken met muziek?",
+      "Zou je een museum leuk vinden om te werken?",
+      "Zou je een huis willen bouwen?",
+      "Werk je graag buiten?",
+      "Hou je van avonturen beleven?",
+      "Werk je graag met technologie?",
+      "Zou je een eigen bedrijf willen starten?",
+      "Help je graag mensen met hun gevoelens?",
+      "Hou je van tekenen op de computer?",
+      "Ben je geïnteresseerd in het nieuws?",
+      "Wil je werken op een boerderij?",
+      "Vind je het leuk om dingen te repareren?",
+      "Wil je anderen iets leren?",
+      "Hou je van plannen en organiseren?",
+      "Wil je een held zijn voor mensen?"
+    ];
 
-document.querySelectorAll(".collage img").forEach(img =>
-  img.addEventListener("click",()=>{
-    startTag=img.dataset.tag;
-    interesse[startTag]=1;
-    screenStart.classList.remove("active");
-    showVraag(0);
-  })
-);
+    const antwoorden = ["Super leuk", "Leuk", "Beetje", "Niet leuk", "Super saai"];
+    let index = 0;
+    let score = 0;
 
-function showVraag(i) {
-  if(i>=vragen.length) return showResult();
-  screenVraag.classList.add("active");
-  document.getElementById("h-vraag").textContent = vragen[i].txt;
-  const opts=document.querySelector(".options");
-  opts.innerHTML="";
-  ["Super leuk","Leuk","Beetje","Niet leuk","Super saai"].forEach(o=>{
-    const b=document.createElement("button");
-    b.textContent=o;
-    b.onclick=()=>{ score(o, vragen[i].tags); showVraag(i+1); };
-    opts.append(b);
-  });
-}
-function score(ans, tags){
-  const val = {"Super leuk":2,"Leuk":1,"Beetje":0,"Niet leuk":-1,"Super saai":-2}[ans];
-  tags.forEach(t=>interesse[t]=(interesse[t]||0)+val);
-}
+    function toonVraag() {
+      if (index < vragen.length) {
+        document.getElementById("vraagtekst").innerText = `Vraag ${index + 1} van ${vragen.length}:\n` + vragen[index];
+        const container = document.getElementById("antwoorden");
+        container.innerHTML = "";
+        antwoorden.forEach((antwoord, i) => {
+          const btn = document.createElement("button");
+          btn.innerText = antwoord;
+          btn.onclick = () => {
+            score += (4 - i); // Super leuk = 4, Super saai = 0
+            index++;
+            toonVraag();
+          };
+          container.appendChild(btn);
+        });
+      } else {
+        toonResultaat();
+      }
+    }
 
-function showResult(){
-  screenVraag.classList.remove("active");
-  const scores = beroepen.map(b=>{
-    const sc = b.tags.reduce((s,t)=>s+(interesse[t]||0),0);
-    return {...b,score:sc};
-  }).sort((a,b)=>b.score-a.score).slice(0,3);
-  const wr=document.getElementById("results");
-  wr.innerHTML = scores.map(b=>`
-    <div class="beroep"><span>${b.ico}</span>${b.nm} — score ${b.score}</div>
-  `).join("");
-  screenResult.classList.add("active");
-}
+    function toonResultaat() {
+      let beroep = "";
+      if (score >= 160) {
+        beroep = "✨ Jij bent een echte alleskunner! Je zou dokter, piloot, architect of zelfs astronaut kunnen worden! 🚀🩺🛩️🏛️";
+      } else if (score >= 120) {
+        beroep = "🎨 Jij houdt van helpen én creatief zijn. Denk aan leraar, kunstenaar, dierenverzorger of verpleegkundige! 👩‍🏫🐶👩‍🎨";
+      } else if (score >= 80) {
+        beroep = "🔧 Jij bent een maker! Misschien ben jij wel de volgende uitvinder, programmeur of automonteur! 💡💻🚗";
+      } else {
+        beroep = "🌟 Jij hebt een unieke kijk op de wereld. Misschien word jij cabaretier, schrijver, gamer of influencer! 🎤📚🎮📱";
+      }
 
-document.getElementById("btn-reset").onclick = () => location.reload();
-</script>
+      document.getElementById("quiz").style.display = "none";
+      document.getElementById("resultaat").innerText = beroep;
+    }
 
+    toonVraag();
+  </script>
 </body>
 </html>
