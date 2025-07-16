@@ -2,7 +2,7 @@
 <html lang="nl">
 <head>
   <meta charset="UTF-8">
-  <title>Wat wil jij worden?</title>
+  <title>Beroepenzoeker voor Kinderen</title>
   <style>
     body {
       margin: 0;
@@ -18,8 +18,8 @@
       background: #fff;
       border-radius: 20px;
       padding: 30px;
-      max-width: 700px;
-      width: 90%;
+      max-width: 1000px;
+      width: 95%;
       box-shadow: 0 10px 30px rgba(0,0,0,0.1);
       text-align: center;
     }
@@ -29,9 +29,9 @@
       margin-bottom: 20px;
     }
     .vraag {
-      font-size: 1.3rem;
+      font-size: 1.4rem;
       margin: 20px 0;
-      color: #444;
+      color: #333;
     }
     .antwoorden button {
       background: #ffd6ec;
@@ -54,6 +54,13 @@
       padding: 20px;
       border-radius: 15px;
     }
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    li {
+      margin: 8px 0;
+    }
   </style>
 </head>
 <body>
@@ -68,76 +75,49 @@
 
   <script>
     const vragen = [
-      "Vind je het leuk om anderen te helpen?",
-      "Werk je graag met dieren?",
-      "Hou je van tekenen of knutselen?",
-      "Zou je in een ziekenhuis willen werken?",
-      "Vind je techniek en bouwen interessant?",
-      "Wil je voor de klas staan?",
-      "Lijkt het je leuk om films of toneel te maken?",
-      "Werk je graag met je handen?",
-      "Zou je in de ruimte willen werken?",
-      "Vind je computers interessant?",
-      "Speel je graag buiten?",
-      "Wil je beroemd worden?",
-      "Vind je het leuk om te zingen of dansen?",
-      "Werk je graag in een team?",
-      "Help je graag met oplossen van problemen?",
-      "Ben je graag creatief bezig?",
-      "Zorg je graag voor anderen?",
-      "Wil je graag veel leren?",
-      "Ben je nieuwsgierig naar hoe dingen werken?",
-      "Hou je van lezen en schrijven?",
-      "Ben je goed met cijfers?",
-      "Werk je graag in stilte?",
-      "Zou je graag met planten of natuur werken?",
-      "Help je graag mensen met praten of luisteren?",
-      "Wil je mensen aan het lachen maken?",
-      "Hou je van kleuren en ontwerpen?",
-      "Zou je graag kleding ontwerpen?",
-      "Werk je graag met machines?",
-      "Hou je van reizen?",
-      "Wil je dingen uitvinden?",
-      "Werk je graag met kinderen?",
-      "Zou je een restaurant willen runnen?",
-      "Vind je auto's interessant?",
-      "Wil je mensen helpen die ziek zijn?",
-      "Hou je van sport?",
-      "Wil je werken met muziek?",
-      "Zou je een museum leuk vinden om te werken?",
-      "Zou je een huis willen bouwen?",
-      "Werk je graag buiten?",
-      "Hou je van avonturen beleven?",
-      "Werk je graag met technologie?",
-      "Zou je een eigen bedrijf willen starten?",
-      "Help je graag mensen met hun gevoelens?",
-      "Hou je van tekenen op de computer?",
-      "Ben je geïnteresseerd in het nieuws?",
-      "Wil je werken op een boerderij?",
-      "Vind je het leuk om dingen te repareren?",
-      "Wil je anderen iets leren?",
-      "Hou je van plannen en organiseren?",
-      "Wil je een held zijn voor mensen?"
+      { vraag: "Vind je het leuk om anderen te helpen?", beroepen: ["verpleegkundige", "dokter", "leraar", "maatschappelijk werker"] },
+      { vraag: "Werk je graag met dieren?", beroepen: ["dierenverzorger", "dierenarts", "boer", "bioloog"] },
+      { vraag: "Hou je van tekenen of knutselen?", beroepen: ["kunstenaar", "illustrator", "ontwerper", "animator"] },
+      { vraag: "Zou je in een ziekenhuis willen werken?", beroepen: ["dokter", "verpleegkundige", "chirurg", "radioloog"] },
+      { vraag: "Vind je techniek en bouwen interessant?", beroepen: ["ingenieur", "architect", "bouwvakker", "monteur"] },
+      { vraag: "Wil je voor de klas staan?", beroepen: ["leraar", "docent", "kindercoach", "onderwijzer"] },
+      { vraag: "Lijkt het je leuk om films of toneel te maken?", beroepen: ["acteur", "regisseur", "scenarioschrijver", "decorbouwer"] },
+      { vraag: "Werk je graag met je handen?", beroepen: ["timmerman", "kok", "kunstenaar", "bakker"] },
+      { vraag: "Zou je in de ruimte willen werken?", beroepen: ["astronaut", "ruimtewetenschapper", "ingenieur"] },
+      { vraag: "Vind je computers interessant?", beroepen: ["programmeur", "webdesigner", "data-analist", "softwareontwikkelaar"] },
+      { vraag: "Wil je mensen aan het lachen maken?", beroepen: ["cabaretier", "acteur", "presentator"] },
+      { vraag: "Zorg je graag voor anderen?", beroepen: ["verpleegkundige", "dokter", "begeleider", "ouderenzorgmedewerker"] },
+      { vraag: "Hou je van sport?", beroepen: ["sportcoach", "sporter", "gymleraar", "fysiotherapeut"] },
+      { vraag: "Wil je werken met muziek?", beroepen: ["muzikant", "muziekdocent", "zanger", "producer"] },
+      { vraag: "Hou je van reizen?", beroepen: ["piloot", "gids", "reisjournalist", "steward"] },
+      { vraag: "Zou je een restaurant willen runnen?", beroepen: ["chef-kok", "horecamanager", "restauranthouder"] },
+      { vraag: "Wil je dingen uitvinden?", beroepen: ["uitvinder", "wetenschapper", "technicus", "ontwerper"] },
+      { vraag: "Werk je graag met kinderen?", beroepen: ["kinderverzorger", "leraar", "animator", "jeugdhulpverlener"] },
+      { vraag: "Hou je van lezen en schrijven?", beroepen: ["schrijver", "journalist", "redacteur", "auteur"] },
+      { vraag: "Hou je van plannen en organiseren?", beroepen: ["eventplanner", "projectmanager", "organisator", "manager"] },
+      { vraag: "Ben je geïnteresseerd in de natuur?", beroepen: ["bioloog", "boswachter", "ecoloog"] },
+      { vraag: "Werk je graag met cijfers en geld?", beroepen: ["boekhouder", "bankier", "econoom"] },
+      { vraag: "Zou je een eigen bedrijf willen hebben?", beroepen: ["ondernemer", "startup founder"] },
+      { vraag: "Hou je van auto's en voertuigen?", beroepen: ["monteur", "automonteur", "vrachtwagenchauffeur"] },
+      { vraag: "Wil je in een laboratorium werken?", beroepen: ["laborant", "chemicus", "onderzoeker"] }
     ];
 
     const antwoorden = ["Super leuk", "Leuk", "Beetje", "Niet leuk", "Super saai"];
     let index = 0;
-    let score = 0;
+    let voorkeuren = {};
 
     function toonVraag() {
       if (index < vragen.length) {
-        document.getElementById("vraagtekst").innerText = `Vraag ${index + 1} van ${vragen.length}:\n` + vragen[index];
+        document.getElementById("vraagtekst").innerText = `Vraag ${index + 1} van ${vragen.length}:\n` + vragen[index].vraag;
         const container = document.getElementById("antwoorden");
         container.innerHTML = "";
         antwoorden.forEach((antwoord, i) => {
-          const btn = document.createElement("button");
-          btn.innerText = antwoord;
-          btn.onclick = () => {
-            score += (4 - i); // Super leuk = 4, Super saai = 0
-            index++;
-            toonVraag();
-          };
-          container.appendChild(btn);
+          const punten = 4 - i;
+          vragen[index].beroepen.forEach(beroep => {
+            voorkeuren[beroep] = (voorkeuren[beroep] || 0) + punten;
+          });
+          index++;
+          toonVraag();
         });
       } else {
         toonResultaat();
@@ -145,19 +125,11 @@
     }
 
     function toonResultaat() {
-      let beroep = "";
-      if (score >= 160) {
-        beroep = "✨ Jij bent een echte alleskunner! Je zou dokter, piloot, architect of zelfs astronaut kunnen worden! 🚀🩺🛩️🏛️";
-      } else if (score >= 120) {
-        beroep = "🎨 Jij houdt van helpen én creatief zijn. Denk aan leraar, kunstenaar, dierenverzorger of verpleegkundige! 👩‍🏫🐶👩‍🎨";
-      } else if (score >= 80) {
-        beroep = "🔧 Jij bent een maker! Misschien ben jij wel de volgende uitvinder, programmeur of automonteur! 💡💻🚗";
-      } else {
-        beroep = "🌟 Jij hebt een unieke kijk op de wereld. Misschien word jij cabaretier, schrijver, gamer of influencer! 🎤📚🎮📱";
-      }
-
+      const gesorteerd = Object.entries(voorkeuren).sort((a, b) => b[1] - a[1]);
+      const top = gesorteerd.slice(0, 5);
+      const resultaatDiv = document.getElementById("resultaat");
       document.getElementById("quiz").style.display = "none";
-      document.getElementById("resultaat").innerText = beroep;
+      resultaatDiv.innerHTML = `<h2>Dit past goed bij jou!</h2><ul>${top.map(([b, s]) => `<li><strong>${b}</strong> – ${s} punten</li>`).join("")}</ul>`;
     }
 
     toonVraag();
